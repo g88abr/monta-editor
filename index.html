@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MONTA — Seu estúdio, mais produtivo</title>
+<meta name="description" content="Reúna em um só lugar as ferramentas, os recursos e a comunidade que todo editor precisa. Feito para o editor pequeno crescer, aprender e ser reconhecido.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%237C5CFF'/><text x='50' y='70' font-size='60' font-family='Arial' font-weight='bold' text-anchor='middle' fill='white'>M</text></svg>">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ================= CABEÇALHO ================= -->
+<header class="site-header" id="topo">
+  <div class="container">
+    <nav class="nav">
+      <a class="brand" href="#topo">
+        <span class="brand__mark">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 19V6l6 7 4-5 6 6v5h-3v-4l-4 4-4-4-3 3z"/></svg>
+        </span>
+        <span>
+          MONT<span>A</span>
+          <small class="brand__tag">nome provisório</small>
+        </span>
+      </a>
+
+      <div class="nav__links" id="navLinks">
+        <a href="#problema">O problema</a>
+        <a href="#ferramentas">Ferramentas</a>
+        <a href="#comunidade">Comunidade</a>
+        <a href="#reconhecimento">Reconhecimento</a>
+        <a href="#roadmap">Como crescer</a>
+      </div>
+
+      <div class="nav__actions">
+        <a class="btn btn--ghost" href="#comunidade">Entrar na comunidade</a>
+        <a class="btn btn--primary" href="app/index.html">Abrir protótipo</a>
+        <button class="nav__toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <span class="hero__glow hero__glow--a"></span>
+  <span class="hero__glow hero__glow--b"></span>
+
+  <div class="container">
+    <div class="hero__grid">
+      <div>
+        <span class="eyebrow">Comunidade + ferramentas em um só lugar</span>
+        <h1 class="hero__title">O editor pequeno<br>deixa de trabalhar <span>sozinho</span>.</h1>
+        <p class="hero__sub">
+          Um lugar só para tudo que o editor precisa: ferramentas do dia a dia,
+          música sem autoria, ativos, dicas da comunidade e um perfil que mostra
+          o seu trabalho. Menos tempo procurando, mais tempo editando.
+        </p>
+
+        <div class="hero__cta">
+          <a class="btn btn--primary btn--lg" href="app/index.html">
+            Explorar o protótipo
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn--ghost btn--lg" href="#problema">Por que isso existe</a>
+        </div>
+
+        <div class="hero__stats">
+          <div class="hero__stat"><b>1 lugar</b><span>em vez de 15 abas abertas</span></div>
+          <div class="hero__stat"><b>0 custo</b><span>para começar e ser visto</span></div>
+          <div class="hero__stat"><b>100% comunidade</b><span>feito por e para editores</span></div>
+        </div>
+      </div>
+
+      <!-- Frase + mock da interface -->
+      <div>
+        <div class="hero__script">Crie.<br>Edite.<em>Evolua.</em></div>
+
+      <div class="mock" aria-hidden="true">
+        <div class="mock__bar">
+          <span class="mock__dot"></span><span class="mock__dot"></span><span class="mock__dot"></span>
+          <span>monta — painel do editor</span>
+        </div>
+        <div class="mock__body">
+          <div class="mock__side">
+            <div class="mock__item is-active"><i></i> Início</div>
+            <div class="mock__item"><i></i> Ferramentas</div>
+            <div class="mock__item"><i></i> Assets</div>
+            <div class="mock__item"><i></i> Produção</div>
+            <div class="mock__item"><i></i> Comunidade</div>
+            <div class="mock__item"><i></i> Ranking</div>
+          </div>
+          <div class="mock__main">
+            <div class="mock__cards">
+              <div class="mock__card">
+                <b>Remover fundo</b>
+                <p>Extrai o objeto do vídeo em segundos, sem abrir outro site.</p>
+                <span class="mock__pill">ferramenta</span>
+              </div>
+              <div class="mock__card">
+                <b>Música sem autoria</b>
+                <p>Biblioteca livre para uso comercial, com filtro por emoção.</p>
+                <span class="mock__pill mock__pill--v">assets</span>
+              </div>
+              <div class="mock__card">
+                <b>Checklist de entrega</b>
+                <p>Confira áudio, legendas e formato antes de enviar ao cliente.</p>
+                <span class="mock__pill mock__pill--g">produção</span>
+              </div>
+              <div class="mock__card">
+                <b>Dicas da semana</b>
+                <p>Corte na respiração: o segredo de cortes que não cansam.</p>
+                <span class="mock__pill">comunidade</span>
+              </div>
+            </div>
+
+            <div class="mock__row">
+              <span class="mock__ava"></span>
+              <div>
+                <b>@mikes.cuts</b>
+                <small>publicou um preset de cor para pele</small>
+              </div>
+              <span class="mock__like">♥ 48</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROBLEMA ================= -->
+<section class="section section--alt" id="problema">
+  <div class="container">
+    <span class="eyebrow">O problema real</span>
+    <h2>O editor hoje perde tempo em cinco lugares diferentes<br>e mesmo assim não é conhecido.</h2>
+    <p class="section-lead">
+      Todo mundo que já editou sabe: a informação existe, mas está espalhada,
+      é paga ou está escondida em grupo fechado. E o talento continua sem nome.
+    </p>
+
+    <div class="grid-4">
+      <article class="card reveal">
+        <div class="card__icon card__icon--a">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        </div>
+        <h3>Tempo jogado fora</h3>
+        <p>Terminar de procurar converter, legendador, banco de música, banco de imagem. São 10 abas para uma única tarefa.</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="card__icon card__icon--v">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h3>Recurso caro demais</h3>
+        <p>Assinatura aqui, pacote ali. O editor pequeno não tem caixa para comprar tudo — e acaba entregando menos.</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="card__icon card__icon--c">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Sem rede de contato</h3>
+        <p>Sem mentor, sem parceria, sem indicação. Cada um aprende sozinho, cometendo o mesmo erro que o vizinho já evitou.</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.6 6.6L21 9.6l-4.8 4.4 1.3 6.7L12 17.4 6.5 20.7l1.3-6.7L3 9.6l6.4-1z"/></svg>
+        </div>
+        <h3>Talento sem nome</h3>
+        <p>Não existe “qual é o seu editor preferido?”. O trabalho é bom, mas ninguém sabe quem está por trás da tela.</p>
+      </article>
+    </div>
+
+    <div class="quote-block reveal">
+      <p>
+        Poucos editores são conhecidos. Não existe aquele editor de renome no Brasil
+        ou nos Estados Unidos. <span>Essas pessoas não são reconhecidas — e é justamente
+        isso que a gente quer mudar.</span>
+      </p>
+      <small>Gabriel &amp; Mikes — por que este projeto existe</small>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FERRAMENTAS / DEMO DE ABAS ================= -->
+<section class="section" id="ferramentas">
+  <div class="container">
+    <span class="eyebrow">Uma plataforma, várias abas</span>
+    <h2>Entre, clique na aba e já está trabalhando.</h2>
+    <p class="section-lead">
+      Tudo separado em abas para você ir direto ao ponto. Clique abaixo para
+      ver como cada área funciona — é uma demonstração real da interface.
+    </p>
+
+    <div class="demo" id="demo">
+      <div class="demo__tabs" role="tablist">
+        <button class="demo__tab is-active" data-panel="p-ferramentas" role="tab" aria-selected="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.1-2.1z"/></svg>
+          Ferramentas
+        </button>
+        <button class="demo__tab" data-panel="p-assets" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          Música &amp; assets
+        </button>
+        <button class="demo__tab" data-panel="p-producao" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
+          Produção
+        </button>
+        <button class="demo__tab" data-panel="p-comunidade" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Comunidade
+        </button>
+        <button class="demo__tab" data-panel="p-ranking" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4"/><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>
+          Reconhecimento
+        </button>
+      </div>
+
+      <!-- Ferramentas -->
+      <div class="demo__panel" id="p-ferramentas" role="tabpanel">
+        <div class="demo__panel-head">
+          <div>
+            <h3>Ferramentas do dia a dia, no mesmo lugar</h3>
+            <p>Remover fundo, legendar, converter, comprimir, baixar, transcrever. Tudo que hoje exige cinco sites diferentes, resolvido em uma aba.</p>
+          </div>
+          <span class="demo__badge">Aba 01</span>
+        </div>
+        <div class="demo__list">
+          <div class="demo__item"><span class="demo__item-ico">✂️</span><div><b>Corte inteligente</b><small>Remove silêncios e trechos mortos do seu vídeo automaticamente</small></div><span class="tag">grátis</span></div>
+          <div class="demo__item"><span class="demo__item-ico">💬</span><div><b>Legendas automáticas</b><small>Transcrição em português com quebra de linha no ritmo da fala</small></div><span class="tag tag--v">IA</span></div>
+          <div class="demo__item"><span class="demo__item-ico">🎨</span><div><b>Remover fundo</b><small>Extraia pessoa ou objeto sem precisar de chroma</small></div><span class="tag tag--v">IA</span></div>
+          <div class="demo__item"><span class="demo__item-ico">📦</span><div><b>Conversor de formato</b><small>MP4, MOV, ProRes, GIF — direto no navegador, sem instalar</small></div><span class="tag tag--c">rápido</span></div>
+          <div class="demo__item"><span class="demo__item-ico">🔊</span><div><b>Nivelador de áudio</b><small>Igualiza volume entre takes e locuções diferentes</small></div><span class="tag">grátis</span></div>
+        </div>
+        <p class="demo__note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+          Essa lista cresce conforme a comunidade sugere novas ferramentas.
+        </p>
+      </div>
+
+      <!-- Assets -->
+      <div class="demo__panel" id="p-assets" role="tabpanel" hidden>
+        <div class="demo__panel-head">
+          <div>
+            <h3>Música sem autoria, loops, efeitos e ativos</h3>
+            <p>Biblioteca organizada por emoção, duração e uso permitido. Nada de descobrir na hora da entrega que a faixa tem restrição de licença.</p>
+          </div>
+          <span class="demo__badge">Aba 02</span>
+        </div>
+        <div class="demo__list">
+          <div class="demo__item"><span class="demo__item-ico">🎧</span><div><b>Música sem autoria</b><small>Trilhas livres para uso comercial, com licença descrita em cada faixa</small></div><span class="tag">uso livre</span></div>
+          <div class="demo__item"><span class="demo__item-ico">🥁</span><div><b>Loops &amp; SFX</b><small>Loops de bateria, transições, whooshes, risadas e impactos</small></div><span class="tag tag--c">royalty free</span></div>
+          <div class="demo__item"><span class="demo__item-ico">🎬</span><div><b>Clipes e B-roll</b><small>Cenas de fundo para cortar a monotonia do vídeo inteiro</small></div><span class="tag tag--v">acervo</span></div>
+          <div class="demo__item"><span class="demo__item-ico">🧩</span><div><b>Templates e presets</b><small>Projetos, LUTs e presets compartilhados pela própria comunidade</small></div><span class="tag tag--g">comunidade</span></div>
+          <div class="demo__item"><span class="demo__item-ico">🔤</span><div><b>Fontes liberadas</b><small>Typefaces com licença para uso em projeto comercial</small></div><span class="tag">grátis</span></div>
+        </div>
+        <p class="demo__note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+          Cada item mostra claramente o que você pode e não pode fazer com ele.
+        </p>
+      </div>
+
+      <!-- Produção -->
+      <div class="demo__panel" id="p-producao" role="tabpanel" hidden>
+        <div class="demo__panel-head">
+          <div>
+            <h3>Produção: o fluxo do editor, do briefing à entrega</h3>
+            <p>Projetos, prazos, checklist de qualidade e orçamento. Para o editor pequeno trabalhar como uma produtora — mesmo sendo um só.</p>
+          </div>
+          <span class="demo__badge">Aba 03</span>
+        </div>
+        <div class="demo__list">
+          <div class="demo__item"><span class="demo__item-ico">📋</span><div><b>Briefing em etapas</b><small>Referências, tom, duração e formatos de saída organizados</small></div><span class="tag">projeto</span></div>
+          <div class="demo__item"><span class="demo__item-ico">✅</span><div><b>Checklist de entrega</b><small>Áudio, legendas, cor, proporção, marca d'água e arquivo final</small></div><span class="tag tag--g">qualidade</span></div>
+          <div class="demo__item"><span class="demo__item-ico">📅</span><div><b>Prazos e revisões</b><small>Quantas rodadas de ajuste estão incluídas no combinado</small></div><span class="tag tag--c">controle</span></div>
+          <div class="demo__item"><span class="demo__item-ico">💰</span><div><b>Tabela de valores</b><small>Referência de preço por minuto finalizado para não cobrar barato demais</small></div><span class="tag tag--v">comunidade</span></div>
+          <div class="demo__item"><span class="demo__item-ico">🗂️</span><div><b>Arquivo do cliente</b><small>Histórico de entregas, versões e observações em um só perfil</small></div><span class="tag">organização</span></div>
+        </div>
+        <p class="demo__note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+          Feito para quem edita sozinho e precisa de método sem burocracia.
+        </p>
+      </div>
+
+      <!-- Comunidade -->
+      <div class="demo__panel" id="p-comunidade" role="tabpanel" hidden>
+        <div class="demo__panel-head">
+          <div>
+            <h3>Comunidade: pergunte, publique e aprenda com quem está na mesma</h3>
+            <p>Dúvidas, dicas, feedback de corte e contato direto com outros editores. O conhecimento deixa de ficar preso em grupo fechado.</p>
+          </div>
+          <span class="demo__badge">Aba 04</span>
+        </div>
+        <div class="demo__list">
+          <div class="demo__item"><span class="demo__item-ico">❓</span><div><b>Pergunte qualquer coisa</b><small>“Como cobrar por Reels?” · “Qual formato entrega no TikTok?”</small></div><span class="tag">dúvida</span></div>
+          <div class="demo__item"><span class="demo__item-ico">💡</span><div><b>Publique suas dicas</b><small>Atalhos, configurações e erros que você já cometeu e evita</small></div><span class="tag tag--g">dica</span></div>
+          <div class="demo__item"><span class="demo__item-ico">👁️</span><div><b>Peça feedback no corte</b><small>Mostre um trecho e receba opinião honesta de quem edita</small></div><span class="tag tag--v">review</span></div>
+          <div class="demo__item"><span class="demo__item-ico">🤝</span><div><b>Encontre parceiros</b><small>Roqueiro, motion, colorista, thumbnail — monte sua equipe</small></div><span class="tag tag--c">network</span></div>
+          <div class="demo__item"><span class="demo__item-ico">🔎</span><div><b>Pesquise antes de perguntar</b><small>Todo o acervo de dúvidas já respondidas fica pesquisável</small></div><span class="tag">base de conhecimento</span></div>
+        </div>
+        <p class="demo__note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+          Aqui não tem pergunta boba. Todo mundo começou do zero.
+        </p>
+      </div>
+
+      <!-- Ranking -->
+      <div class="demo__panel" id="p-ranking" role="tabpanel" hidden>
+        <div class="demo__panel-head">
+          <div>
+            <h3>Reconhecimento: o nome atrás da tela</h3>
+            <p>Perfil público, portfólio, selos por contribuição e ranking de quem mais ajuda a comunidade. O editor deixa de ser invisível.</p>
+          </div>
+          <span class="demo__badge">Aba 05</span>
+        </div>
+        <div class="demo__list">
+          <div class="demo__item"><span class="demo__item-ico">👤</span><div><b>Perfil com portfólio</b><small>Seus melhores cortes, clientes e especialidade em um link só</small></div><span class="tag">identidade</span></div>
+          <div class="demo__item"><span class="demo__item-ico">🏅</span><div><b>Selos de contribuição</b><small>Quem responde, quem publica dica, quem compartilha asset ganha selo</small></div><span class="tag tag--g">reputação</span></div>
+          <div class="demo__item"><span class="demo__item-ico">🏆</span><div><b>Ranking da comunidade</b><small>Top editores por ajudaria, qualidade de resposta e trabalho publicado</small></div><span class="tag tag--v">visibilidade</span></div>
+          <div class="demo__item"><span class="demo__item-ico">📩</span><div><b>Receba trabalho</b><small>Clientes e editores encontram você pelo que você faz de melhor</small></div><span class="tag tag--c">oportunidade</span></div>
+          <div class="demo__item"><span class="demo__item-ico">⭐</span><div><b>Recomendações</b><small>Quem já trabalhou com você deixa um depósito público</small></div><span class="tag">confiança</span></div>
+        </div>
+        <p class="demo__note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+          Essa é a resposta para “qual é o seu editor preferido?”.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COMUNIDADE ================= -->
+<section class="section section--alt" id="comunidade">
+  <div class="container">
+    <span class="eyebrow">O coração do projeto</span>
+    <h2>Uma comunidade que responde de verdade.</h2>
+    <p class="section-lead">
+      O editor pequeno pergunta, pesquisa, publica o que aprendeu e encontra
+      gente construindo carreira no mesmo momento que ele.
+    </p>
+
+    <div class="community-grid">
+      <article class="thread reveal">
+        <div class="thread__top">
+          <span class="thread__ava thread__ava--1">L</span>
+          <div class="thread__who"><b>Lucas M.</b><small>Editor iniciante · Salvador</small></div>
+          <span class="thread__flag">dúvida</span>
+        </div>
+        <h3>Como cobrar por corte de Reels quando o cliente pede 12 versões?</h3>
+        <p>Estou começando e aceitei o valor pensando que era um vídeo só. Achei que ia ser rápido — não foi. Como vocês fazem?</p>
+        <div class="thread__foot">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> 14 respostas</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> há 2 h</span>
+        </div>
+      </article>
+
+      <article class="thread reveal">
+        <div class="thread__top">
+          <span class="thread__ava thread__ava--2">M</span>
+          <div class="thread__who"><b>Mikes</b><small>Co-fundador · São Paulo</small></div>
+          <span class="thread__flag thread__flag--g">dica</span>
+        </div>
+        <h3>Corte na respiração: o ajuste que faz o vídeo parecer profissional</h3>
+        <p>Nunca corte no meio da palavra. Corte no fim da inspiração, antes da expiração. O cérebro do espectador não percebe a emenda.</p>
+        <div class="thread__foot">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 10v11M18 10l-3-7H7a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2z"/></svg> 213 curtidas</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> há 1 d</span>
+        </div>
+      </article>
+
+      <article class="thread reveal">
+        <div class="thread__top">
+          <span class="thread__ava thread__ava--3">A</span>
+          <div class="thread__who"><b>Ana Beatriz</b><small>Editora de documentário · Recife</small></div>
+          <span class="thread__flag thread__flag--v">feedback</span>
+        </div>
+        <h3>Postei meu primeiro corte de entrevista — o que eu melhoraria?</h3>
+        <p>Sentei a câmera na entrevistadora por engano em dois takes. Devo reconstruir ou deixar assim? Aceito crítica dura.</p>
+        <div class="thread__foot">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> 8 respostas</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> há 5 h</span>
+        </div>
+      </article>
+
+      <article class="thread reveal">
+        <div class="thread__top">
+          <span class="thread__ava thread__ava--4">R</span>
+          <div class="thread__who"><b>Rafael T.</b><small>Motion designer · Curitiba</small></div>
+          <span class="thread__flag thread__flag--g">colaboração</span>
+        </div>
+        <h3>Procuro editor para projeto mensal de um canal de culinária</h3>
+        <p>Pagamento fixo, 8 vídeos por mês, material organizado. Preciso de alguém que curta corte rápido e ritmo leve. Chama no perfil.</p>
+        <div class="thread__foot">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/></svg> 5 interessados</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> há 3 h</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RECONHECIMENTO ================= -->
+<section class="section" id="reconhecimento">
+  <div class="container">
+    <span class="eyebrow">Reconhecimento</span>
+    <h2>O ranking que transforma trabalho bom em nome conhecido.</h2>
+    <p class="section-lead">
+      Cada dica publicada, cada dúvida respondida e cada asset compartilhado
+      constrói a reputação de quem está por trás da tela.
+    </p>
+
+    <div class="rank reveal">
+      <div class="rank__head">
+        <span>#</span><span>Editor</span><span>Especialidade</span><span>Contribuição</span><span>Selo</span>
+      </div>
+
+      <div class="rank__row">
+        <span class="rank__pos">01</span>
+        <div class="rank__user"><span class="thread__ava thread__ava--1">M</span><div><b>Mikes</b><small>@mikes.cuts</small></div></div>
+        <span class="rank__cell">Corte &amp; montagem</span>
+        <span class="rank__cell"><b>142</b> ajudas</span>
+        <span class="rank__badge">Fundador</span>
+      </div>
+
+      <div class="rank__row">
+        <span class="rank__pos">02</span>
+        <div class="rank__user"><span class="thread__ava thread__ava--3">A</span><div><b>Ana Beatriz</b><small>@ana.cuts</small></div></div>
+        <span class="rank__cell">Documentário</span>
+        <span class="rank__cell"><b>118</b> ajudas</span>
+        <span class="rank__badge rank__badge--v">Mentora</span>
+      </div>
+
+      <div class="rank__row">
+        <span class="rank__pos">03</span>
+        <div class="rank__user"><span class="thread__ava thread__ava--4">R</span><div><b>Rafael T.</b><small>@rafamotion</small></div></div>
+        <span class="rank__cell">Motion design</span>
+        <span class="rank__cell"><b>97</b> ajudas</span>
+        <span class="rank__badge rank__badge--c">Contribuinte</span>
+      </div>
+
+      <div class="rank__row">
+        <span class="rank__pos">04</span>
+        <div class="rank__user"><span class="thread__ava thread__ava--1">G</span><div><b>Gabriel</b><small>@gabriel.edita</small></div></div>
+        <span class="rank__cell">Redes sociais</span>
+        <span class="rank__cell"><b>86</b> ajudas</span>
+        <span class="rank__badge">Fundador</span>
+      </div>
+
+      <div class="rank__row">
+        <span class="rank__pos">05</span>
+        <div class="rank__user"><span class="thread__ava thread__ava--2">L</span><div><b>Lucas M.</b><small>@lucasmonta</small></div></div>
+        <span class="rank__cell">Reels &amp; Shorts</span>
+        <span class="rank__cell"><b>64</b> ajudas</span>
+        <span class="rank__badge rank__badge--g">Em ascensão</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ROADMAP ================= -->
+<section class="section section--alt" id="roadmap">
+  <div class="container">
+    <span class="eyebrow">Como a gente vai crescer</span>
+    <h2>Primeiro escala. Depois, o resto.</h2>
+    <p class="section-lead">
+      A ordem é essa: muita gente usando, dados para analisar, melhorias no lugar
+      certo. Monetização vem depois — e vem natural, quando a comunidade já gera valor.
+    </p>
+
+    <div class="steps">
+      <article class="step reveal">
+        <h3>Abrir e atrair</h3>
+        <p>Lançar o protótipo, mostrar para editores pequenos e trazer os primeiros 100 usuários ativos.</p>
+      </article>
+      <article class="step reveal">
+        <h3>Ouvir e medir</h3>
+        <p>Observar o que as pessoas realmente usam: quais abas, quais ferramentas, quais dúvidas se repetem.</p>
+      </article>
+      <article class="step reveal">
+        <h3>Melhorar o que importa</h3>
+        <p>Cortar o que ninguém usa e reforçar o que gera valor. Qualidade acima de quantidade de recurso.</p>
+      </article>
+      <article class="step reveal">
+        <h3>Monetizar sem quebrar</h3>
+        <p>Recursos premium para quem pode pagar, grátis para sempre quem está começando. A comunidade continua aberta.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="section">
+  <div class="container">
+    <div class="cta reveal">
+      <h2>Se você edita, aqui é o seu lugar.</h2>
+      <p>
+        Este projeto está começando agora. Quem entrar cedo ajuda a definir as
+        ferramentas, as regras da comunidade e o que vai aparecer em cada aba.
+      </p>
+      <div class="cta__actions">
+        <a class="btn btn--primary btn--lg" href="app/index.html">Abrir o protótipo</a>
+        <a class="btn btn--ghost btn--lg" href="#ferramentas">Ver as abas</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RODAPÉ ================= -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__about">
+        <a class="brand" href="#topo">
+          <span class="brand__mark">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 19V6l6 7 4-5 6 6v5h-3v-4l-4 4-4-4-3 3z"/></svg>
+          </span>
+          <span>MONT<span>A</span> <small class="brand__tag">nome provisório</small></span>
+        </a>
+        <p>Ferramentas, recursos e comunidade em um só lugar. Feito para o editor pequeno produzir mais, gastar menos e ser reconhecido.</p>
+      </div>
+
+      <div class="footer__col">
+        <h4>Plataforma</h4>
+        <a href="#ferramentas">Ferramentas</a>
+        <a href="#ferramentas">Música &amp; assets</a>
+        <a href="#ferramentas">Produção</a>
+        <a href="app/index.html">Protótipo</a>
+      </div>
+
+      <div class="footer__col">
+        <h4>Comunidade</h4>
+        <a href="#comunidade">Dúvidas</a>
+        <a href="#comunidade">Dicas</a>
+        <a href="#comunidade">Colaborações</a>
+        <a href="#reconhecimento">Ranking</a>
+      </div>
+
+      <div class="footer__col">
+        <h4>Projeto</h4>
+        <a href="#problema">Por que existe</a>
+        <a href="#roadmap">Como crescer</a>
+        <a href="#roadmap">Monetização</a>
+        <a href="#topo">Voltar ao topo</a>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© <span id="ano">2026</span> Monta — projeto de Gabriel &amp; Mikes. Nome provisório.</span>
+      <span>Feito com foco em editores pequenos do Brasil.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

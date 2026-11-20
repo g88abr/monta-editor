@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MONTA — Seu estúdio, mais produtivo</title>
+<meta name="description" content="Protótipo da plataforma MONTA: biblioteca de assets, produção, ferramentas de edição e comunidade de editores.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%237C5CFF'/><text x='50' y='70' font-size='60' font-family='Arial' font-weight='bold' text-anchor='middle' fill='white'>M</text></svg>">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand__mark">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 19V6l6 7 4-5 6 6v5h-3v-4l-4 4-4-4-3 3z"/></svg>
+      </span>
+      <span class="brand__word">MONT<span>A</span></span>
+    </a>
+
+    <nav id="sideNav">
+      <div class="nav-group">
+        <div class="nav-group__label">Visão geral</div>
+
+        <button class="nav-btn is-active" data-panel="inicio">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+          Início
+        </button>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group__label">Plataforma</div>
+
+        <button class="nav-btn" data-menu="m-biblio" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h6l2 2h8v12H4z"/></svg>
+          Biblioteca
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+        <div class="submenu" id="m-biblio">
+          <button data-panel="biblioteca" data-cat="todos"><span class="dot"></span>Tudo <span class="count">340</span></button>
+          <button data-panel="biblioteca" data-cat="lut"><span class="dot"></span>LUTs</button>
+          <button data-panel="biblioteca" data-cat="sfx"><span class="dot"></span>SFX</button>
+          <button data-panel="biblioteca" data-cat="musica"><span class="dot"></span>Músicas</button>
+          <button data-panel="biblioteca" data-cat="efeito"><span class="dot"></span>Efeitos</button>
+          <button data-panel="biblioteca" data-cat="template"><span class="dot"></span>Templates</button>
+          <button data-panel="biblioteca" data-cat="fonte"><span class="dot"></span>Fontes</button>
+          <button data-panel="biblioteca" data-cat="tutorial"><span class="dot"></span>Tutoriais</button>
+        </div>
+
+        <button class="nav-btn" data-menu="m-prod" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
+          Produção
+          <span class="count">6</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+        <div class="submenu" id="m-prod">
+          <button data-panel="producao" data-scroll="kanban"><span class="dot"></span>Projetos</button>
+          <button data-panel="producao" data-scroll="calendario"><span class="dot"></span>Calendário</button>
+          <button data-panel="producao" data-scroll="checklist"><span class="dot"></span>Checklist</button>
+        </div>
+
+        <button class="nav-btn" data-menu="m-ferr" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.1-2.1z"/></svg>
+          Ferramentas
+          <span class="count">12</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+        <div class="submenu" id="m-ferr">
+          <button data-panel="ferramentas" data-cat="todas"><span class="dot"></span>Todas</button>
+          <button data-panel="ferramentas" data-cat="corte"><span class="dot"></span>Corte</button>
+          <button data-panel="ferramentas" data-cat="ia"><span class="dot"></span>Inteligência artificial</button>
+          <button data-panel="ferramentas" data-cat="audio"><span class="dot"></span>Áudio</button>
+          <button data-panel="ferramentas" data-cat="formato"><span class="dot"></span>Formato</button>
+          <button data-panel="ferramentas" data-cat="texto"><span class="dot"></span>Texto &amp; legenda</button>
+        </div>
+
+        <button class="nav-btn" data-menu="m-comu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Comunidade
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+        <div class="submenu" id="m-comu">
+          <button data-panel="comunidade" data-cat="todos"><span class="dot"></span>Feed <span class="count" id="postCount">4</span></button>
+          <button data-panel="comunidade" data-cat="duvida"><span class="dot"></span>Dúvidas</button>
+          <button data-panel="comunidade" data-cat="dica"><span class="dot"></span>Dicas</button>
+          <button data-panel="comunidade" data-cat="feedback"><span class="dot"></span>Feedback</button>
+          <button data-panel="comunidade" data-cat="vaga"><span class="dot"></span>Vagas</button>
+          <button data-panel="comunidade" data-scroll="ranking"><span class="dot"></span>Reconhecimento</button>
+        </div>
+      </div>
+
+      <div class="sidebar__divider"></div>
+
+      <div class="nav-group">
+        <div class="nav-group__label">Conta</div>
+
+        <button class="nav-btn" data-action="em-breve">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 8.9 19a1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 5 8.9a1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9.5A1.7 1.7 0 0 0 10.5 3V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9v.1a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+          Configurações
+        </button>
+
+        <button class="nav-btn" data-action="ajuda">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.6 2.6 0 0 1 5 1c0 1.7-2.5 2-2.5 3.5M12 17h.01"/></svg>
+          Ajuda
+        </button>
+      </div>
+    </nav>
+
+    <div class="sidebar__foot">
+      <div class="user-card" data-action="perfil">
+        <span class="ava">G</span>
+        <div>
+          <b>Gabriel</b>
+          <small>@gabriel.edita · Editor</small>
+        </div>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+
+    <header class="topbar">
+      <div class="crumb">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+        <span id="crumbRoot">Overview</span> <i>/</i> <b id="crumbLeaf">Dashboard</b>
+      </div>
+
+      <label class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input type="search" id="globalSearch" placeholder="Buscar em toda a plataforma... (ex: LUTs, músicas, tutoriais, etc.)" autocomplete="off">
+        <span class="kbd">Ctrl K</span>
+      </label>
+
+      <div class="topbar__right">
+        <button class="icon-btn" data-action="notificacoes" aria-label="Notificações">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+          <span class="dot"></span>
+        </button>
+
+        <button class="btn" id="btnPublicar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          <span>Publicar</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <!-- ================= INÍCIO / DASHBOARD ================= -->
+      <section class="panel is-active" id="panel-inicio">
+
+        <div class="hero">
+          <div class="hero__inner">
+            <div>
+              <h1>Seu estúdio,<br><span>mais produtivo.</span></h1>
+              <p>O MONTA é seu assistente completo para editar, organizar e encontrar tudo o que precisa em um só lugar.</p>
+              <button class="btn btn--lg" data-goto="biblioteca">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                Explorar a plataforma
+              </button>
+            </div>
+            <div class="hero__script">Crie.<br>Edite.<em>Evolua.</em></div>
+          </div>
+        </div>
+
+        <!-- Atalhos -->
+        <div class="quick">
+          <button class="quick__btn" data-goto="biblioteca">
+            <span class="quick__ico quick__ico--purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h6l2 2h8v12H4z"/></svg>
+            </span>
+            <b>Biblioteca</b><small>LUTs, SFX, músicas e mais</small>
+          </button>
+
+          <button class="quick__btn" data-goto="producao">
+            <span class="quick__ico quick__ico--green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>
+            </span>
+            <b>Projetos</b><small>Gerencie seus trabalhos</small>
+          </button>
+
+          <button class="quick__btn" data-goto="ferramentas">
+            <span class="quick__ico quick__ico--orange">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.1-2.1z"/></svg>
+            </span>
+            <b>Ferramentas</b><small>Utilitários para edição</small>
+          </button>
+
+          <button class="quick__btn" data-action="tutoriais">
+            <span class="quick__ico quick__ico--blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor"/></svg>
+            </span>
+            <b>Tutoriais</b><small>Aprenda e evolua</small>
+          </button>
+
+          <button class="quick__btn" data-goto="comunidade">
+            <span class="quick__ico quick__ico--pink">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </span>
+            <b>Comunidade</b><small>Conecte-se com editores</small>
+          </button>
+        </div>
+
+        <!-- Biblioteca + Projetos -->
+        <div class="duo">
+          <div class="block">
+            <div class="block__head">
+              <div class="block__title">
+                <span class="ico">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg>
+                </span>
+                <div>
+                  <h3>Biblioteca Universal</h3>
+                  <small>Encontre tudo o que precisa para seus projetos.</small>
+                </div>
+              </div>
+              <a data-goto="biblioteca">Ver todas →</a>
+            </div>
+
+            <div class="chips" id="dashAssetChips">
+              <button class="chip is-active" data-cat="todos">Tudo</button>
+              <button class="chip" data-cat="lut">LUTs</button>
+              <button class="chip" data-cat="sfx">SFX</button>
+              <button class="chip" data-cat="musica">Músicas</button>
+              <button class="chip" data-cat="efeito">Efeitos</button>
+              <button class="chip" data-cat="template">Templates</button>
+              <button class="chip" data-cat="fonte">Fontes</button>
+              <button class="chip" data-cat="tutorial">Tutoriais</button>
+            </div>
+
+            <div class="assets" id="dashAssets"></div>
+          </div>
+
+          <div class="block">
+            <div class="block__head">
+              <div class="block__title">
+                <span class="ico" style="background:var(--green-soft);color:var(--green)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 6-7"/><path d="M14 8h5v5"/></svg>
+                </span>
+                <div>
+                  <h3>Meus Projetos</h3>
+                  <small>Andamento dos seus trabalhos.</small>
+                </div>
+              </div>
+              <a data-goto="producao">Ver todas →</a>
+            </div>
+
+            <div class="kanban" id="dashKanban"></div>
+          </div>
+        </div>
+
+        <!-- Ferramentas + Calendário + Comunidade -->
+        <div class="trio">
+          <div class="block">
+            <div class="block__head">
+              <div class="block__title">
+                <span class="ico" style="background:var(--orange-soft);color:var(--orange)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg>
+                </span>
+                <div>
+                  <h3>Ferramentas Rápidas</h3>
+                  <small>Acesse ferramentas essenciais para o seu dia a dia.</small>
+                </div>
+              </div>
+              <a data-goto="ferramentas">Ver todas →</a>
+            </div>
+
+            <div class="tools-mini" id="dashTools"></div>
+          </div>
+
+          <div class="block">
+            <div class="block__head">
+              <div class="block__title">
+                <span class="ico" style="background:var(--blue-soft);color:var(--blue)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>
+                </span>
+                <div>
+                  <h3>Calendário de Entregas</h3>
+                  <small>Fique por dentro dos prazos.</small>
+                </div>
+              </div>
+              <a data-goto="producao">Ver calendário →</a>
+            </div>
+
+            <div class="cal">
+              <div class="cal__item">
+                <div class="cal__date"><b>25</b><small>Nov</small></div>
+                <div class="cal__info"><b>Vídeo Institucional — Igreja Boa Nova</b><small>Entrega até 18h</small></div>
+                <span class="cal__tag">Hoje</span>
+              </div>
+              <div class="cal__item">
+                <div class="cal__date"><b>28</b><small>Nov</small></div>
+                <div class="cal__info"><b>Reels — Studio Fit</b><small>Lote de 6 vídeos</small></div>
+                <span class="cal__tag cal__tag--soon">Em breve</span>
+              </div>
+              <div class="cal__item">
+                <div class="cal__date"><b>01</b><small>Dez</small></div>
+                <div class="cal__info"><b>Campanha Black Friday</b><small>Cliente: Marca X</small></div>
+                <span class="cal__tag cal__tag--ok">Confirmado</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="block__head">
+              <div class="block__title">
+                <span class="ico" style="background:var(--pink-soft);color:var(--pink)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </span>
+                <div>
+                  <h3>Comunidade</h3>
+                  <small>Troque ideias, tire dúvidas e faça parte.</small>
+                </div>
+              </div>
+              <a data-goto="comunidade">Ver mais →</a>
+            </div>
+
+            <div id="dashFeed" style="display:flex;flex-direction:column;gap:14px"></div>
+          </div>
+        </div>
+
+        <!-- Reconhecimento -->
+        <div class="block mt-22">
+          <div class="block__head">
+            <div class="block__title">
+              <span class="ico" style="background:var(--accent-soft);color:var(--accent-2)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4"/><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>
+              </span>
+              <div>
+                <h3>Reconhecimento</h3>
+                <small>Quem mais ajuda a comunidade aparece primeiro.</small>
+              </div>
+            </div>
+            <a data-goto="comunidade" data-scroll="ranking">Ver ranking →</a>
+          </div>
+          <div id="dashRank"></div>
+        </div>
+      </section>
+
+      <!-- ================= BIBLIOTECA ================= -->
+      <section class="panel" id="panel-biblioteca">
+        <div class="panel__head">
+          <h2>Biblioteca Universal</h2>
+          <p>LUTs, efeitos sonoros, músicas sem autoria, templates, fontes e tutoriais. Cada item mostra a licença — sem susto na hora da entrega.</p>
+        </div>
+
+        <div class="lib" id="lib">
+          <!-- Barra lateral: busca + categorias -->
+          <aside class="lib__side">
+            <div class="lib__search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+              <input type="search" id="libSearch" placeholder="Buscar na biblioteca..." autocomplete="off" aria-label="Buscar na biblioteca">
+              <button class="lib__clear" id="libClear" aria-label="Limpar busca" hidden>×</button>
+            </div>
+
+            <nav class="lib__cats" id="biblioChips" aria-label="Categorias da biblioteca">
+              <button class="chip is-active" data-cat="todos">
+                <span class="lib__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="1.6"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.6"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.6"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.6"/></svg></span>
+                Tudo <span class="lib__n" data-n="todos">0</span>
+              </button>
+              <button class="chip" data-cat="video">
+                <span class="lib__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="12.5" height="12" rx="2.4"/><path d="M15.5 10.2L21 7.4v9.2l-5.5-2.8z"/></svg></span>
+                Clipes <span class="lib__n" data-n="video">0</span>
+              </button>
+              <button class="chip" data-cat="musica">
+                <span class="lib__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17.5V5.2l10-2v12.3"/><ellipse cx="6.6" cy="17.6" rx="2.6" ry="2.4"/><ellipse cx="16.6" cy="15.6" rx="2.6" ry="2.4"/></svg></span>
+                Músicas <span class="lib__n" data-n="musica">0</span>
+              </button>
+              <button class="chip" data-cat="sfx">
+                <span class="lib__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z"/><path d="M15.4 9.4a4 4 0 0 1 0 5.2"/><path d="M18 6.8a7.5 7.5 0 0 1 0 10.4"/></svg></span>
+                Áudio <span class="lib__n" data-n="sfx">0</span>
+              </button>
+              <button class="chip" data-cat="lut">
+                <span class="lib__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.4"/><path d="M7.6 4v16M16.4 4v16M3 9.2h4.6M16.4 9.2H21M3 14.8h4.6M16.4 14.8H21"/></svg></span>
+                LUTs <span class="lib__n" data-n="lut">0</span>
+              </button>
+              <button class="chip" data-cat="efeito">
+                <span class="lib__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.2 2.5L4.8 13.4h5.6l-1.2 8.1 9-11.4h-5.6l.6-7.6z"/></svg></span>
+                Efeitos <span class="lib__n" data-n="efeito">0</span>
+              </button>
+              <button class="chip" data-cat="template">
+                <span class="lib__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l8.6 4.6L12 12.4 3.4 7.8 12 3.2z"/><path d="M3.4 12.6L12 17.2l8.6-4.6"/></svg></span>
+                Templates <span class="lib__n" data-n="template">0</span>
+              </button>
+              <button class="chip" data-cat="fonte">
+                <span class="lib__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 19L11 5l6.5 14"/><path d="M6.8 14.4h8.4"/><path d="M18.5 19H21"/></svg></span>
+                Fontes <span class="lib__n" data-n="fonte">0</span>
+              </button>
+              <button class="chip" data-cat="tutorial">
+                <span class="lib__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.6"/><path d="M10.2 9.6l4.8 2.4-4.8 2.4z"/></svg></span>
+                Tutoriais <span class="lib__n" data-n="tutorial">0</span>
+              </button>
+              <button class="chip" data-cat="fav">
+                <span class="lib__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.4l2.7 5.5 6 .9-4.4 4.2 1.1 6-5.4-2.9-5.4 2.9 1.1-6L3.3 9.8l6-.9L12 3.4z"/></svg></span>
+                Favoritos <span class="lib__n" data-n="fav">0</span>
+              </button>
+              <button class="chip" data-cat="recent">
+                <span class="lib__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.2V12l3.2 2"/></svg></span>
+                Recentes <span class="lib__n" data-n="recent">0</span>
+              </button>
+            </nav>
+          </aside>
+
+          <!-- Grade de itens -->
+          <div class="lib__main">
+            <div class="lib__bar">
+              <h3 id="libTitle">Todos os itens</h3>
+              <span class="lib__hint">Clique num item para ver os detalhes</span>
+            </div>
+            <div class="assets" id="biblioAssets"></div>
+          </div>
+
+          <!-- Painel de detalhes -->
+          <aside class="lib__detail" id="libDetail" aria-live="polite"></aside>
+
+          <!-- Barra de status -->
+          <div class="lib__status">
+            <span class="lib__count" id="libCount">0 itens</span>
+
+            <label class="lib__sort">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M7 20l-3.2-3.4M7 20l3.2-3.4"/><path d="M14 7.5h6M14 12h5M14 16.5h4"/></svg>
+              <select id="libSort" aria-label="Ordenar biblioteca">
+                <option value="az">Nome A–Z</option>
+                <option value="za">Nome Z–A</option>
+                <option value="recent">Mais recentes</option>
+              </select>
+            </label>
+
+            <div class="lib__view" role="group" aria-label="Modo de visualização">
+              <button class="lib__vbtn is-active" data-libview="grid" aria-label="Ver em grade">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>
+              </button>
+              <button class="lib__vbtn" data-libview="list" aria-label="Ver em lista">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5h16M4 12h16M4 17.5h16"/></svg>
+              </button>
+            </div>
+
+            <div class="lib__zoom">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M8.4 11h5.2M20.5 20.5L16 16"/></svg>
+              <input type="range" id="libZoom" min="70" max="150" value="100" aria-label="Zoom da grade">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= PRODUÇÃO ================= -->
+      <section class="panel" id="panel-producao">
+        <div class="panel__head">
+          <h2>Produção</h2>
+          <p>Seus projetos em fluxo, prazos combinados e o checklist que evita retorno do cliente.</p>
+        </div>
+
+        <div class="kanban" id="fullKanban" style="grid-template-columns:repeat(3,1fr)"></div>
+
+        <div class="grid grid--4 mt-22">
+          <div class="card stat"><span class="stat__ico stat__ico--orange">📥</span><div><b>2</b><span>projetos recebidos</span></div></div>
+          <div class="card stat"><span class="stat__ico stat__ico--blue">🎬</span><div><b>1</b><span>em produção</span></div></div>
+          <div class="card stat"><span class="stat__ico stat__ico--green">✅</span><div><b>3</b><span>entregues no mês</span></div></div>
+          <div class="card stat"><span class="stat__ico">⏰</span><div><b>25</b><span>dias até o próximo prazo</span></div></div>
+        </div>
+
+        <div class="grid grid--2 mt-22">
+          <div class="block" id="checklist">
+            <div class="block__head">
+              <div class="block__title">
+                <span class="ico" style="background:var(--green-soft);color:var(--green)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l2 2 4-4"/><rect x="4" y="4" width="16" height="16" rx="3"/></svg>
+                </span>
+                <div>
+                  <h3>Checklist antes de enviar</h3>
+                  <small>Confira tudo antes de mandar pro cliente.</small>
+                </div>
+              </div>
+              <a data-action="reset-checklist">Reiniciar</a>
+            </div>
+
+            <ul class="checklist">
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span><span>Áudio normalizado e sem estouro</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span><span>Legendas revisadas, sem erro de grafia</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span><span>Cor e exposição consistentes entre cenas</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span><span>Licença da música confirmada para uso comercial</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span><span>Formato e proporção corretos para a rede</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span><span>Marcas d'água e créditos aplicados</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span><span>Arquivo exportado e nomeado no padrão do cliente</span></li>
+            </ul>
+          </div>
+
+          <div class="block" id="calendario">
+            <div class="block__head">
+              <div class="block__title">
+                <span class="ico" style="background:var(--blue-soft);color:var(--blue)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>
+                </span>
+                <div>
+                  <h3>Calendário de Entregas</h3>
+                  <small>Fique por dentro dos prazos.</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="cal">
+              <div class="cal__item">
+                <div class="cal__date"><b>25</b><small>Nov</small></div>
+                <div class="cal__info"><b>Vídeo Institucional — Igreja Boa Nova</b><small>Entrega até 18h · 1 revisão inclusa</small></div>
+                <span class="cal__tag">Hoje</span>
+              </div>
+              <div class="cal__item">
+                <div class="cal__date"><b>28</b><small>Nov</small></div>
+                <div class="cal__info"><b>Reels — Studio Fit</b><small>Lote de 6 vídeos · 9:16</small></div>
+                <span class="cal__tag cal__tag--soon">Em breve</span>
+              </div>
+              <div class="cal__item">
+                <div class="cal__date"><b>01</b><small>Dez</small></div>
+                <div class="cal__info"><b>Campanha Black Friday</b><small>Cliente: Marca X · 3 cortes</small></div>
+                <span class="cal__tag cal__tag--ok">Confirmado</span>
+              </div>
+              <div class="cal__item">
+                <div class="cal__date"><b>09</b><small>Dez</small></div>
+                <div class="cal__info"><b>Podcast ep. 43 — versão vertical</b><small>Semanal · recorrente</small></div>
+                <span class="cal__tag cal__tag--soon">Agendado</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= FERRAMENTAS ================= -->
+      <section class="panel" id="panel-ferramentas">
+        <div class="panel__head">
+          <h2>Ferramentas</h2>
+          <p>Tudo que você faria em cinco sites diferentes, resolvido aqui dentro. Nada para instalar — roda direto no navegador.</p>
+        </div>
+
+        <div class="chips" id="toolChips">
+          <button class="chip is-active" data-cat="todas">Todas</button>
+          <button class="chip" data-cat="corte">Corte</button>
+          <button class="chip" data-cat="ia">Inteligência artificial</button>
+          <button class="chip" data-cat="audio">Áudio</button>
+          <button class="chip" data-cat="formato">Formato</button>
+          <button class="chip" data-cat="texto">Texto &amp; legenda</button>
+        </div>
+
+        <div class="grid grid--3" id="toolGrid"></div>
+      </section>
+
+      <!-- ================= COMUNIDADE ================= -->
+      <section class="panel" id="panel-comunidade">
+        <div class="panel__head">
+          <h2>Comunidade</h2>
+          <p>Pergunte, publique o que você aprendeu, peça feedback no corte e encontre gente na mesma fase que você.</p>
+        </div>
+
+        <div class="composer">
+          <div class="composer__row">
+            <span class="ava">G</span>
+            <textarea id="postText" placeholder="O que você quer compartilhar com a comunidade?"></textarea>
+          </div>
+          <div class="composer__foot">
+            <div class="type-picker" id="typePicker">
+              <button class="is-active" data-type="duvida">Dúvida</button>
+              <button data-type="dica">Dica</button>
+              <button data-type="feedback">Feedback</button>
+              <button data-type="vaga">Vaga</button>
+            </div>
+            <button class="btn" id="btnPostar">Publicar</button>
+          </div>
+        </div>
+
+        <div class="chips" id="postChips">
+          <button class="chip is-active" data-type="todos">Tudo</button>
+          <button class="chip" data-type="duvida">Dúvidas</button>
+          <button class="chip" data-type="dica">Dicas</button>
+          <button class="chip" data-type="feedback">Feedback</button>
+          <button class="chip" data-type="vaga">Vagas</button>
+        </div>
+
+        <div id="feed"></div>
+
+        <div class="block mt-22" id="ranking">
+          <div class="block__head">
+            <div class="block__title">
+              <span class="ico">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4"/><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>
+              </span>
+              <div>
+                <h3>Reconhecimento</h3>
+                <small>O ranking que transforma trabalho bom em nome conhecido.</small>
+              </div>
+            </div>
+          </div>
+          <div id="fullRank"></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- ============ NAV MOBILE ============ -->
+<nav class="mobile-nav" id="mobileNav">
+  <button class="is-active" data-panel="inicio">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+    Início
+  </button>
+  <button data-panel="biblioteca">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h6l2 2h8v12H4z"/></svg>
+    Biblioteca
+  </button>
+  <button data-panel="producao">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
+    Produção
+  </button>
+  <button data-panel="ferramentas">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.1-2.1z"/></svg>
+    Ferramentas
+  </button>
+  <button data-panel="comunidade">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    Comunidade
+  </button>
+</nav>
+
+<!-- ============ TOAST + MODAL ============ -->
+<div class="toast-wrap" id="toasts"></div>
+
+<div class="modal-back" id="modal">
+  <div class="modal">
+    <h3 id="modalTitle">Em breve</h3>
+    <p id="modalText">Esta funcionalidade faz parte do roadmap e será liberada nas próximas versões.</p>
+    <div class="modal__close">
+      <button class="btn btn--ghost" id="modalClose">Fechar</button>
+      <button class="btn" id="modalOk">Entendi</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
