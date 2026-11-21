@@ -148,6 +148,85 @@
   var DEFAULT_CAT = { biblioteca:'todos', ferramentas:'todas', comunidade:'todos' };
 
   /* =========================================================
+     1b. SUPABASE — conexão com a tabela "posts"
+     ========================================================= */
+
+  var SUPABASE_URL = 'https://xuxzfcczmzasyvdreeij.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_ClUgxMhHlMQbN_YtE4XbyA_JI2P8UWN';
+
+  var db = null;
+  if (window.supabase && typeof window.supabase.createClient === 'function') {
+    db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  } else {
+    console.warn('[Supabase] biblioteca não carregou (CDN bloqueado?) — feed segue com os posts de demonstração.');
+  }
+
+  var AVA_POR_TIPO = {
+    dica: 'ava--blue', feedback: 'ava--pink', duvida: 'ava--orange', vaga: 'ava--green'
+  };
+
+  /* linha da tabela -> formato do feed */
+  function linhaParaPost(r) {
+    var autor = r.autor || 'Anônimo';
+    var tipo = r.categoria || 'duvida';
+    var slug = autor.toLowerCase().replace(/[^a-z0-9]+/g, '').slice(0, 16);
+    return {
+      id: r.id,
+      autor: autor,
+      handle: r.handle || ('@' + (slug || 'editor')),
+      tempo: tempoRelativo(r.created_at),
+      type: tipo,
+      ava: r.ava || AVA_POR_TIPO[tipo] || '',
+      titulo: r.titulo || 'Sem título',
+      texto: r.conteudo || '',
+      likes: Number(r.curtidas) || 0,
+      comments: Number(r.comments) || 0
+    };
+  }
+
+  function tempoRelativo(iso) {
+    if (!iso) return 'recente';
+    var t = new Date(iso).getTime();
+    if (isNaN(t)) return 'recente';
+    var min = Math.floor((Date.now() - t) / 60000);
+    if (min < 1) return 'agora';
+    if (min < 60) return 'há ' + min + ' min';
+    var h = Math.floor(min / 60);
+    if (h < 24) return 'há ' + h + ' h';
+    var d = Math.floor(h / 24);
+    if (d < 30) return 'há ' + d + ' d';
+    return 'há ' + Math.floor(d / 30) + ' mês';
+  }
+
+  /* busca os posts do Supabase (mantém os de demonstração se falhar) */
+  function carregarPosts() {
+    if (!db) return;
+    db.from('posts').select('*')
+      .then(function (res) {
+        if (res.error) {
+          console.warn('[Supabase] não consegui ler "posts":', res.error.message);
+          return;
+        }
+        var linhas = res.data || [];
+        if (!linhas.length) {
+          console.info('[Supabase] tabela "posts" vazia — mantendo os posts de demonstração.');
+          return;
+        }
+        linhas.sort(function (a, b) {
+          var ta = a.created_at || '', tb = b.created_at || '';
+          if (ta !== tb) return String(tb).localeCompare(String(ta));
+          return (Number(b.id) || 0) - (Number(a.id) || 0);
+        });
+        POSTS = linhas.map(linhaParaPost);
+        render();
+      })
+      .catch(function (e) {
+        console.warn('[Supabase] falha ao carregar "posts":', e && e.message);
+      });
+  }
+
+
+  /* =========================================================
      2. UTILIDADES
      ========================================================= */
 
@@ -298,7 +377,7 @@
           : '<h3>' + esc(p.titulo) + '</h3><p>' + esc(p.texto) + '</p>') +
         (mini ? '' :
           '<div class="post__foot">' +
-            '<button class="react" data-like>' +
+            '<button class="react" data-like' + (p.id ? ' data-pid="' + esc(p.id) + '"' : '') + '>' +
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20s-7-4.5-9.5-9A5.2 5.2 0 0 1 12 6a5.2 5.2 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z"/></svg>' +
               '<span>' + p.likes + '</span></button>' +
             '<button class="react" data-comment>' +
@@ -705,7 +784,17 @@
       var span = like.querySelector('span');
       var n = parseInt(span.textContent, 10);
       var on = like.classList.toggle('is-on');
-      span.textContent = String(on ? n + 1 : n - 1);
+      var novoLikes = on ? n + 1 : n - 1;
+      span.textContent = String(novoLikes);
+      // grava "curtidas" no Supabase quando o post veio da tabela
+      var pid = like.getAttribute('data-pid');
+      if (pid && db) {
+        db.from('posts').update({ curtidas: novoLikes }).eq('id', pid)
+          .then(function (res) {
+            if (res.error) console.warn('[Supabase] não atualizei "curtidas":', res.error.message);
+          })
+          .catch(function (e) { console.warn('[Supabase] falha ao atualizar "curtidas":', e && e.message); });
+      }
       return;
     }
     if (el.closest('[data-comment]')) {
@@ -776,6 +865,7 @@
     if (titulo.length > 90) titulo = titulo.slice(0, 90) + '…';
     var corpo = txt.slice(titulo.length).trim() || 'Publicado pela comunidade.';
 
+    // aparece no feed na hora (otimista)
     POSTS.unshift({
       autor:'Gabriel', handle:'@gabriel.edita', tempo:'agora',
       type:novoTipo, ava:'', titulo:titulo, texto:corpo, likes:0, comments:0
@@ -785,7 +875,42 @@
     fPost = 'todos';
     sincronizaChips('#postChips', 'todos');
     render();
-    toast('Publicado', 'Sua publicação entrou no topo do feed da comunidade.');
+
+    if (!db) {
+      toast('Publicado nesta sessão', 'O Supabase não carregou — o post fica só até você recarregar.');
+      return;
+    }
+
+    // grava na tabela "posts"
+    db.from('posts').insert([{
+      autor: 'Gabriel',
+      titulo: titulo,
+      conteudo: corpo,
+      categoria: novoTipo,
+      curtidas: 0
+    }]).select()
+      .then(function (res) {
+        if (res.error) {
+          console.warn('[Supabase] não consegui inserir em "posts":', res.error.message);
+          toast('Publicado só aqui', 'O Supabase recusou a gravação (' + res.error.message + ').');
+          return;
+        }
+        var linha = res.data && res.data[0];
+        if (linha) {
+          for (var i = 0; i < POSTS.length; i++) {
+            if (POSTS[i].titulo === titulo && POSTS[i].texto === corpo && !POSTS[i].id) {
+              POSTS[i] = linhaParaPost(linha);
+              break;
+            }
+          }
+          render();
+        }
+        toast('Publicado', 'Seu post entrou no feed e foi salvo no Supabase.');
+      })
+      .catch(function (e) {
+        console.warn('[Supabase] falha ao inserir em "posts":', e && e.message);
+        toast('Publicado só aqui', 'Não consegui falar com o Supabase agora.');
+      });
   }
 
   $('#btnPostar') && $('#btnPostar').addEventListener('click', publicar);
@@ -850,6 +975,7 @@
      ========================================================= */
 
   render();
+  carregarPosts();
 
   var hash = (location.hash || '').replace('#', '');
   if (hash && $('#panel-' + hash)) irPara(hash);
