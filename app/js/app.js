@@ -110,7 +110,7 @@
   };
 
   var POSTS = [
-    { autor:'Mikes', handle:'@mikes.cuts', tempo:'há 1 d', type:'dica', ava:'ava--blue',
+    { autor:'Miqueias', handle:'@miqueias.cuts', tempo:'há 1 d', type:'dica', ava:'ava--blue',
       titulo:'Corte na respiração: o ajuste que faz o vídeo parecer profissional',
       texto:'Nunca corte no meio da palavra. Corte no fim da inspiração, antes da expiração — o cérebro do espectador não percebe a emenda.',
       likes:213, comments:27 },
@@ -129,7 +129,7 @@
   ];
 
   var RANK = [
-    { pos:'01', nome:'Mikes', handle:'@mikes.cuts', esp:'Corte & montagem', ajudas:142, selo:'Fundador', cls:'', ava:'ava--blue' },
+    { pos:'01', nome:'Miqueias', handle:'@miqueias.cuts', esp:'Corte & montagem', ajudas:142, selo:'Fundador', cls:'', ava:'ava--blue' },
     { pos:'02', nome:'Ana Beatriz', handle:'@ana.cuts', esp:'Documentário', ajudas:118, selo:'Mentora', cls:'rank__badge--green', ava:'ava--pink' },
     { pos:'03', nome:'Rafael T.', handle:'@rafamotion', esp:'Motion design', ajudas:97, selo:'Contribuinte', cls:'rank__badge--blue', ava:'ava--green' },
     { pos:'04', nome:'Gabriel (você)', handle:'@gabriel.edita', esp:'Redes sociais', ajudas:86, selo:'Fundador', cls:'', ava:'', me:true },
@@ -148,17 +148,20 @@
   var DEFAULT_CAT = { biblioteca:'todos', ferramentas:'todas', comunidade:'todos' };
 
   /* =========================================================
-     1b. SUPABASE — conexão com a tabela "posts"
+     1b. SUPABASE — conexão real com banco + auth
      ========================================================= */
 
   var SUPABASE_URL = 'https://xuxzfcczmzasyvdreeij.supabase.co';
   var SUPABASE_KEY = 'sb_publishable_ClUgxMhHlMQbN_YtE4XbyA_JI2P8UWN';
 
   var db = null;
+  var usuario = null;  // usuário logado (Supabase Auth)
+  var perfil = null;   // perfil do usuário logado
+
   if (window.supabase && typeof window.supabase.createClient === 'function') {
     db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
   } else {
-    console.warn('[Supabase] biblioteca não carregou (CDN bloqueado?) — feed segue com os posts de demonstração.');
+    console.warn('[Supabase] biblioteca não carregou (CDN bloqueado?).');
   }
 
   var AVA_POR_TIPO = {
@@ -170,6 +173,7 @@
     var autor = r.autor || 'Anônimo';
     var tipo = r.categoria || 'duvida';
     var slug = autor.toLowerCase().replace(/[^a-z0-9]+/g, '').slice(0, 16);
+    var meu = usuario && r.user_id === usuario.id;
     return {
       id: r.id,
       autor: autor,
@@ -180,7 +184,9 @@
       titulo: r.titulo || 'Sem título',
       texto: r.conteudo || '',
       likes: Number(r.curtidas) || 0,
-      comments: Number(r.comments) || 0
+      comments: Number(r.comments) || 0,
+      meu: meu,
+      user_id: r.user_id || null
     };
   }
 
@@ -198,32 +204,109 @@
     return 'há ' + Math.floor(d / 30) + ' mês';
   }
 
-  /* busca os posts do Supabase (mantém os de demonstração se falhar) */
-  function carregarPosts() {
+  /* ---------- Auth ---------- */
+
+  function mostrarAuth(mostrar) {
+    var btnPub = $('#btnPublicar');
+    var areaAuth = $('#areaAuth');
+    if (mostrar) {
+      if (btnPub) btnPub.style.display = 'none';
+      if (areaAuth) areaAuth.style.display = 'flex';
+    } else {
+      if (btnPub) btnPub.style.display = 'inline-flex';
+      if (areaAuth) areaAuth.style.display = 'none';
+    }
+  }
+
+  function atualizarEstadoAuth() {
     if (!db) return;
+    db.auth.getSession().then(function ({ data, error }) {
+      if (error || !data.session) {
+        usuario = null;
+        perfil = null;
+        mostrarAuth(true);
+        return;
+      }
+      usuario = data.session.user;
+      db.from('profiles').select('*').eq('id', usuario.id).single()
+        .then(function ({ data: p, error: e }) {
+          perfil = p || null;
+          mostrarAuth(false);
+          carregarPosts();
+        })
+        .catch(function () {
+          perfil = null;
+          mostrarAuth(false);
+          carregarPosts();
+        });
+    }).catch(function () {
+      usuario = null;
+      perfil = null;
+      mostrarAuth(true);
+    });
+  }
+
+  function cadastrar(email, senha, nome, handle) {
+    if (!db) return Promise.reject(new Error('Supabase não carregou'));
+    return db.auth.signUp({ email: email, password: senha, options: { data: { nome: nome, handle: handle } } })
+      .then(function ({ data, error }) {
+        if (error) throw error;
+        // cria perfil se o usuário foi criado
+        if (data.user) {
+          return db.from('profiles').insert([{
+            id: data.user.id,
+            nome: nome,
+            handle: handle
+          }]).then(function () { return { data: data, error: null }; });
+        }
+        return { data: data, error: null };
+      });
+  }
+
+  function logar(email, senha) {
+    if (!db) return Promise.reject(new Error('Supabase não carregou'));
+    return db.auth.signInWithPassword({ email: email, password: senha });
+  }
+
+  function deslogar() {
+    if (!db) return;
+    db.auth.signOut().then(function () {
+      usuario = null;
+      perfil = null;
+      mostrarAuth(true);
+      carregarPosts();
+      render();
+      toast('Desconectado', 'Até a próxima!');
+    });
+  }
+
+  /* busca os posts reais do Supabase */
+  function carregarPosts() {
+    POSTS = [];  // limpa demonstração
+    render();    // feed vazio enquanto carrega
+    if (!db) {
+      toast('Sem conexão', 'O Supabase não está disponível.');
+      return;
+    }
     db.from('posts').select('*')
+      .order('created_at', { ascending: false })
       .then(function (res) {
         if (res.error) {
           console.warn('[Supabase] não consegui ler "posts":', res.error.message);
+          toast('Erro', 'Não consegui carregar os posts. Verifique as permissões da tabela.');
           return;
         }
         var linhas = res.data || [];
-        if (!linhas.length) {
-          console.info('[Supabase] tabela "posts" vazia — mantendo os posts de demonstração.');
-          return;
-        }
-        linhas.sort(function (a, b) {
-          var ta = a.created_at || '', tb = b.created_at || '';
-          if (ta !== tb) return String(tb).localeCompare(String(ta));
-          return (Number(b.id) || 0) - (Number(a.id) || 0);
-        });
         POSTS = linhas.map(linhaParaPost);
         render();
       })
       .catch(function (e) {
         console.warn('[Supabase] falha ao carregar "posts":', e && e.message);
+        toast('Erro', 'Falha ao conectar com o banco.');
       });
   }
+
+  /* ---------- Fim Auth ---------- */
 
 
   /* =========================================================
@@ -377,7 +460,7 @@
           : '<h3>' + esc(p.titulo) + '</h3><p>' + esc(p.texto) + '</p>') +
         (mini ? '' :
           '<div class="post__foot">' +
-            '<button class="react" data-like' + (p.id ? ' data-pid="' + esc(p.id) + '"' : '') + '>' +
+            '<button class="react" data-like' + (p.id ? ' data-pid="' + esc(p.id) + '"' : '') + (p.meu ? ' data-meu="true"' : '') + '>' +
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20s-7-4.5-9.5-9A5.2 5.2 0 0 1 12 6a5.2 5.2 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z"/></svg>' +
               '<span>' + p.likes + '</span></button>' +
             '<button class="react" data-comment>' +
@@ -422,11 +505,12 @@
       '</div>';
   }
 
-  function rankHTML() {
+  function rankHTML(ranking) {
+    ranking = ranking || RANK;
     return '' +
       '<div class="rank">' +
         '<div class="rank__head"><span>#</span><span>Editor</span><span>Especialidade</span><span>Contribuição</span><span>Selo</span></div>' +
-        RANK.map(function (r) {
+        ranking.map(function (r) {
           return '' +
             '<div class="rank__row' + (r.me ? ' is-me' : '') + '">' +
               '<span class="rank__pos">' + r.pos + '</span>' +
@@ -547,9 +631,25 @@
 
     $('#dashFeed').innerHTML = POSTS.slice(0, 2).map(function (p) { return postCard(p, true); }).join('');
 
-    // Ranking
-    $('#dashRank').innerHTML = rankHTML();
-    $('#fullRank').innerHTML = rankHTML();
+    // Ranking — agora vem de verdade dos posts
+    var rankMap = {};
+    posts.forEach(function (p) {
+      if (!rankMap[p.autor]) {
+        rankMap[p.autor] = { nome: p.autor, handle: p.handle, esp: p.type, ajudas: 0, posts: 0, likes: 0, ava: p.ava };
+      }
+      rankMap[p.autor].ajudas += p.likes;
+      rankMap[p.autor].posts += 1;
+      rankMap[p.autor].likes += p.likes;
+    });
+    var ranking = Object.values(rankMap).sort(function (a, b) { return b.ajudas - a.ajudas; }).slice(0, 6);
+    ranking.forEach(function (r, i) {
+      r.pos = String(i + 1).padStart(2, '0');
+      r.selo = i === 0 ? 'Fundador' : i === 1 ? 'Mentora' : i === 2 ? 'Contribuinte' : 'Em ascensão';
+      r.cls = i === 0 ? '' : i === 1 ? 'rank__badge--green' : i === 2 ? 'rank__badge--blue' : 'rank__badge--m';
+      r.me = usuario && r.handle === perfil.handle;
+    });
+    $('#dashRank').innerHTML = rankHTML(ranking);
+    $('#fullRank').innerHTML = rankHTML(ranking);
 
     var pc = $('#postCount');
     if (pc) pc.textContent = String(POSTS.length);
@@ -783,17 +883,46 @@
     if (like) {
       var span = like.querySelector('span');
       var n = parseInt(span.textContent, 10);
-      var on = like.classList.toggle('is-on');
-      var novoLikes = on ? n + 1 : n - 1;
-      span.textContent = String(novoLikes);
-      // grava "curtidas" no Supabase quando o post veio da tabela
       var pid = like.getAttribute('data-pid');
-      if (pid && db) {
-        db.from('posts').update({ curtidas: novoLikes }).eq('id', pid)
+      var meu = like.getAttribute('data-meu') === 'true';
+
+      if (!usuario) {
+        toast('Faça login primeiro', 'Você precisa estar conectado para curtir.');
+        return;
+      }
+
+      if (meu) {
+        // remove curtida
+        like.classList.remove('is-on');
+        span.textContent = String(Math.max(0, n - 1));
+        if (db && pid) {
+          db.from('post_likes').delete().eq('post_id', pid).eq('user_id', usuario.id)
+            .then(function (res) {
+              if (res.error) console.warn('[Supabase] não removeu curtida:', res.error.message);
+            })
+            .catch(function (e) { console.warn('[Supabase] falha ao remover curtida:', e && e.message); });
+        }
+        return;
+      }
+
+      // adiciona curtida
+      like.classList.add('is-on');
+      span.textContent = String(n + 1);
+      if (db && pid) {
+        db.from('post_likes').insert([{ post_id: Number(pid), user_id: usuario.id }])
           .then(function (res) {
-            if (res.error) console.warn('[Supabase] não atualizei "curtidas":', res.error.message);
+            if (res.error) {
+              console.warn('[Supabase] não consegui curtir:', res.error.message);
+              like.classList.remove('is-on');
+              span.textContent = String(n);
+              toast('Erro', 'Não consegui curtir.');
+            }
           })
-          .catch(function (e) { console.warn('[Supabase] falha ao atualizar "curtidas":', e && e.message); });
+          .catch(function (e) {
+            console.warn('[Supabase] falha ao curtir:', e && e.message);
+            like.classList.remove('is-on');
+            span.textContent = String(n);
+          });
       }
       return;
     }
@@ -822,7 +951,27 @@
       irPara('biblioteca', { cat: 'tutorial' });
     },
     'notificacoes': function () {
-      toast('3 novas', 'Mikes respondeu sua dúvida · Ana curtiu seu corte · 1 vaga nova');
+      toast('3 novas', 'Miqueias respondeu sua dúvida · Ana curtiu seu corte · 1 vaga nova');
+    },
+    'login': function () {
+      var m = $('#modalAuth');
+      var formL = $('#formLogin');
+      var formC = $('#formCadastro');
+      if (m) { m.classList.add('is-open'); }
+      if (formL) { formL.style.display = 'block'; }
+      if (formC) { formC.style.display = 'none'; }
+      $('#authTitle').textContent = 'Entrar no MONTA';
+      $('#authSub').textContent = 'Bem-vindo de volta. Faça login para publicar e curtir.';
+    },
+    'cadastro': function () {
+      var m = $('#modalAuth');
+      var formL = $('#formLogin');
+      var formC = $('#formCadastro');
+      if (m) { m.classList.add('is-open'); }
+      if (formL) { formL.style.display = 'none'; }
+      if (formC) { formC.style.display = 'block'; }
+      $('#authTitle').textContent = 'Criar conta no MONTA';
+      $('#authSub').textContent = 'Junte-se à comunidade de editores.';
     },
     'reset-checklist': function () {
       $$('.checklist .check').forEach(function (c) {
@@ -854,6 +1003,10 @@
   });
 
   function publicar() {
+    if (!usuario) {
+      toast('Faça login primeiro', 'Você precisa estar conectado para publicar.');
+      return;
+    }
     var ta = $('#postText');
     var txt = ta.value.trim();
     if (!txt) {
@@ -864,11 +1017,17 @@
     var titulo = txt.split('\n')[0];
     if (titulo.length > 90) titulo = titulo.slice(0, 90) + '…';
     var corpo = txt.slice(titulo.length).trim() || 'Publicado pela comunidade.';
+    var nomeAutor = perfil && perfil.nome ? perfil.nome : (usuario.email || 'Usuário');
+    var handleAutor = perfil && perfil.handle ? perfil.handle : '@' + (usuario.email || 'user').split('@')[0];
 
     // aparece no feed na hora (otimista)
     POSTS.unshift({
-      autor:'Gabriel', handle:'@gabriel.edita', tempo:'agora',
-      type:novoTipo, ava:'', titulo:titulo, texto:corpo, likes:0, comments:0
+      id: null,
+      autor: nomeAutor,
+      handle: handleAutor,
+      tempo: 'agora',
+      type: novoTipo, ava: '', titulo: titulo, texto: corpo, likes: 0, comments: 0,
+      meu: true, user_id: usuario.id
     });
 
     ta.value = '';
@@ -881,9 +1040,11 @@
       return;
     }
 
-    // grava na tabela "posts"
+    // grava na tabela "posts" de verdade
     db.from('posts').insert([{
-      autor: 'Gabriel',
+      user_id: usuario.id,
+      autor: nomeAutor,
+      handle: handleAutor,
       titulo: titulo,
       conteudo: corpo,
       categoria: novoTipo,
@@ -892,24 +1053,24 @@
       .then(function (res) {
         if (res.error) {
           console.warn('[Supabase] não consegui inserir em "posts":', res.error.message);
-          toast('Publicado só aqui', 'O Supabase recusou a gravação (' + res.error.message + ').');
+          toast('Publicado só aqui', 'O banco recusou a gravação (' + res.error.message + ').');
           return;
         }
         var linha = res.data && res.data[0];
         if (linha) {
           for (var i = 0; i < POSTS.length; i++) {
-            if (POSTS[i].titulo === titulo && POSTS[i].texto === corpo && !POSTS[i].id) {
+            if (POSTS[i].id === null && POSTS[i].titulo === titulo && POSTS[i].texto === corpo) {
               POSTS[i] = linhaParaPost(linha);
               break;
             }
           }
           render();
         }
-        toast('Publicado', 'Seu post entrou no feed e foi salvo no Supabase.');
+        toast('Publicado', 'Seu post entrou no feed e foi salvo no banco.');
       })
       .catch(function (e) {
         console.warn('[Supabase] falha ao inserir em "posts":', e && e.message);
-        toast('Publicado só aqui', 'Não consegui falar com o Supabase agora.');
+        toast('Publicado só aqui', 'Não consegui falar com o banco agora.');
       });
   }
 
@@ -918,6 +1079,83 @@
     irPara('comunidade');
     setTimeout(function () { $('#postText').focus(); }, 320);
   });
+
+  /* ---------- Auth: formulários ---------- */
+  var formLogin = $('#formLogin');
+  var formCadastro = $('#formCadastro');
+  var irCadastro = $('#irCadastro');
+  var irLogin = $('#irLogin');
+  var authClose = $('#authClose');
+
+  if (formLogin) {
+    formLogin.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = $('#loginEmail').value.trim();
+      var senha = $('#loginSenha').value.trim();
+      if (!email || !senha) {
+        toast('Preencha tudo', 'Informe e-mail e senha.');
+        return;
+      }
+      logar(email, senha)
+        .then(function () {
+          $('#modalAuth').classList.remove('is-open');
+          toast('Bem-vindo', 'Você está conectado.');
+        })
+        .catch(function (err) {
+          console.warn('[Auth] erro ao entrar:', err && err.message);
+          toast('Erro ao entrar', err && err.message ? err.message : 'Verifique seus dados.');
+        });
+    });
+  }
+
+  if (formCadastro) {
+    formCadastro.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var nome = $('#cadNome').value.trim();
+      var handle = $('#cadHandle').value.trim().replace('@', '');
+      var email = $('#cadEmail').value.trim();
+      var senha = $('#cadSenha').value.trim();
+      if (!nome || !handle || !email || !senha) {
+        toast('Preencha tudo', 'Todos os campos são obrigatórios.');
+        return;
+      }
+      cadastrar(email, senha, nome, handle)
+        .then(function () {
+          $('#modalAuth').classList.remove('is-open');
+          toast('Conta criada', 'Faça login para continuar.');
+          formCadastro.style.display = 'none';
+          formLogin.style.display = 'block';
+        })
+        .catch(function (err) {
+          console.warn('[Auth] erro ao cadastrar:', err && err.message);
+          toast('Erro ao cadastrar', err && err.message ? err.message : 'Tente outro e-mail.');
+        });
+    });
+  }
+
+  if (irCadastro) {
+    irCadastro.addEventListener('click', function () {
+      $('#formLogin').style.display = 'none';
+      $('#formCadastro').style.display = 'block';
+      $('#authTitle').textContent = 'Criar conta no MONTA';
+      $('#authSub').textContent = 'Junte-se à comunidade de editores.';
+    });
+  }
+
+  if (irLogin) {
+    irLogin.addEventListener('click', function () {
+      $('#formCadastro').style.display = 'none';
+      $('#formLogin').style.display = 'block';
+      $('#authTitle').textContent = 'Entrar no MONTA';
+      $('#authSub').textContent = 'Bem-vindo de volta. Faça login para publicar e curtir.';
+    });
+  }
+
+  if (authClose) {
+    authClose.addEventListener('click', function () {
+      $('#modalAuth').classList.remove('is-open');
+    });
+  }
 
   /* =========================================================
      8. CHECKLIST
@@ -975,11 +1213,57 @@
      ========================================================= */
 
   render();
-  carregarPosts();
+
+  // inicia auth e carrega posts reais
+  if (db) {
+    db.auth.onAuthStateChange(function (event, session) {
+      if (session) {
+        usuario = session.user;
+        db.from('profiles').select('*').eq('id', usuario.id).single()
+          .then(function ({ data: p, error: e }) {
+            perfil = p || null;
+            mostrarAuth(false);
+            carregarPosts();
+          })
+          .catch(function () {
+            perfil = null;
+            mostrarAuth(false);
+            carregarPosts();
+          });
+      } else {
+        usuario = null;
+        perfil = null;
+        mostrarAuth(true);
+        carregarPosts();
+      }
+    });
+    db.auth.getSession().then(function ({ data, error }) {
+      if (data && data.session) {
+        usuario = data.session.user;
+        db.from('profiles').select('*').eq('id', usuario.id).single()
+          .then(function ({ data: p, error: e }) {
+            perfil = p || null;
+            mostrarAuth(false);
+            carregarPosts();
+          })
+          .catch(function () {
+            perfil = null;
+            mostrarAuth(false);
+            carregarPosts();
+          });
+      } else {
+        mostrarAuth(true);
+      }
+    }).catch(function () {
+      mostrarAuth(true);
+    });
+  } else {
+    mostrarAuth(true);
+  }
 
   var hash = (location.hash || '').replace('#', '');
   if (hash && $('#panel-' + hash)) irPara(hash);
 
   console.log('%cMONTA — protótipo', 'color:#7C5CFF;font-weight:bold;font-size:14px');
-  console.log('Projeto de Gabriel & Mikes.');
+  console.log('Projeto de Gabriel & Miqueias.');
 })();

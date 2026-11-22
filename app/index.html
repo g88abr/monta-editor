@@ -146,6 +146,11 @@
           <span class="dot"></span>
         </button>
 
+        <div id="areaAuth" style="display:none;gap:10px;align-items:center">
+          <button class="btn btn--ghost btn--sm" data-action="login">Entrar</button>
+          <button class="btn btn--sm" data-action="cadastro">Criar conta</button>
+        </div>
+
         <button class="btn" id="btnPublicar">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
           <span>Publicar</span>
@@ -639,6 +644,52 @@
     <div class="modal__close">
       <button class="btn btn--ghost" id="modalClose">Fechar</button>
       <button class="btn" id="modalOk">Entendi</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL DE AUTENTICAÇÃO ============ -->
+<div class="modal-back" id="modalAuth">
+  <div class="modal" style="max-width:400px">
+    <h3 id="authTitle">Entrar no MONTA</h3>
+    <p id="authSub" style="color:var(--muted);font-size:.88rem;margin-top:8px;margin-bottom:20px"></p>
+    
+    <form id="formLogin" style="display:none">
+      <div style="margin-bottom:14px">
+        <label style="display:block;font-size:.8rem;color:var(--muted);margin-bottom:6px">E-mail</label>
+        <input type="email" id="loginEmail" placeholder="seu@email.com" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);font-family:inherit;font-size:.9rem">
+      </div>
+      <div style="margin-bottom:14px">
+        <label style="display:block;font-size:.8rem;color:var(--muted);margin-bottom:6px">Senha</label>
+        <input type="password" id="loginSenha" placeholder="••••••••" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);font-family:inherit;font-size:.9rem">
+      </div>
+      <button type="submit" class="btn" style="width:100%;margin-bottom:10px">Entrar</button>
+      <p style="font-size:.78rem;color:var(--muted);text-align:center">Não tem conta? <button type="button" id="irCadastro" style="background:none;border:none;color:var(--accent-2);cursor:pointer;font-weight:700;padding:0">Crie aqui</button></p>
+    </form>
+
+    <form id="formCadastro" style="display:none">
+      <div style="margin-bottom:14px">
+        <label style="display:block;font-size:.8rem;color:var(--muted);margin-bottom:6px">Nome</label>
+        <input type="text" id="cadNome" placeholder="Gabriel" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);font-family:inherit;font-size:.9rem">
+      </div>
+      <div style="margin-bottom:14px">
+        <label style="display:block;font-size:.8rem;color:var(--muted);margin-bottom:6px">Handle (ex: @gabriel.edita)</label>
+        <input type="text" id="cadHandle" placeholder="gabriel.edita" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);font-family:inherit;font-size:.9rem">
+      </div>
+      <div style="margin-bottom:14px">
+        <label style="display:block;font-size:.8rem;color:var(--muted);margin-bottom:6px">E-mail</label>
+        <input type="email" id="cadEmail" placeholder="seu@email.com" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);font-family:inherit;font-size:.9rem">
+      </div>
+      <div style="margin-bottom:14px">
+        <label style="display:block;font-size:.8rem;color:var(--muted);margin-bottom:6px">Senha</label>
+        <input type="password" id="cadSenha" placeholder="••••••••" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);font-family:inherit;font-size:.9rem">
+      </div>
+      <button type="submit" class="btn" style="width:100%;margin-bottom:10px">Criar conta</button>
+      <p style="font-size:.78rem;color:var(--muted);text-align:center">Já tem conta? <button type="button" id="irLogin" style="background:none;border:none;color:var(--accent-2);cursor:pointer;font-weight:700;padding:0">Entrar</button></p>
+    </form>
+
+    <div class="modal__close" style="margin-top:20px">
+      <button class="btn btn--ghost" id="authClose">Fechar</button>
     </div>
   </div>
 </div>
