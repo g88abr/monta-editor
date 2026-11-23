@@ -1,4 +1,4 @@
-/* Servidor estático simples — apenas para visualizar o protótipo localmente.
+/* Servidor estático simples — para visualizar o MONTA localmente.
    Uso: node server.js   (http://127.0.0.1:8777) */
 const http = require('http');
 const fs = require('fs');

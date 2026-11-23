@@ -33,11 +33,11 @@
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
-  /* ---------- Abas da demonstração ---------- */
-  const demo = document.getElementById('demo');
-  if (demo) {
-    const tabs = Array.from(demo.querySelectorAll('.demo__tab'));
-    const panels = Array.from(demo.querySelectorAll('.demo__panel'));
+  /* ---------- Abas da seção de recursos ---------- */
+  const showcase = document.getElementById('showcase');
+  if (showcase) {
+    const tabs = Array.from(showcase.querySelectorAll('.showcase__tab'));
+    const panels = Array.from(showcase.querySelectorAll('.showcase__panel'));
 
     function activate(tab) {
       const targetId = tab.getAttribute('data-panel');

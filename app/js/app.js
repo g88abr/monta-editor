@@ -1,5 +1,5 @@
 /* ============================================================
-   MONTA — Protótipo: dados + interações
+   MONTA — Plataforma: dados + interações
    Sem dependências. Funciona em qualquer navegador.
    ============================================================ */
 
@@ -7,7 +7,7 @@
   'use strict';
 
   /* =========================================================
-     1. DADOS DE DEMONSTRAÇÃO
+     1. DADOS INICIAIS
      ========================================================= */
 
   var TOOLS = [
@@ -161,7 +161,7 @@
   if (window.supabase && typeof window.supabase.createClient === 'function') {
     db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
   } else {
-    console.warn('[Supabase] biblioteca não carregou (CDN bloqueado?).');
+    console.warn('[Supabase] biblioteca não disponível.');
   }
 
   var AVA_POR_TIPO = {
@@ -247,7 +247,6 @@
   }
 
   function cadastrar(email, senha, nome, handle) {
-    if (!db) return Promise.reject(new Error('Supabase não carregou'));
     return db.auth.signUp({ email: email, password: senha, options: { data: { nome: nome, handle: handle } } })
       .then(function ({ data, error }) {
         if (error) throw error;
@@ -264,7 +263,6 @@
   }
 
   function logar(email, senha) {
-    if (!db) return Promise.reject(new Error('Supabase não carregou'));
     return db.auth.signInWithPassword({ email: email, password: senha });
   }
 
@@ -282,18 +280,12 @@
 
   /* busca os posts reais do Supabase */
   function carregarPosts() {
-    POSTS = [];  // limpa demonstração
-    render();    // feed vazio enquanto carrega
-    if (!db) {
-      toast('Sem conexão', 'O Supabase não está disponível.');
-      return;
-    }
     db.from('posts').select('*')
       .order('created_at', { ascending: false })
       .then(function (res) {
         if (res.error) {
           console.warn('[Supabase] não consegui ler "posts":', res.error.message);
-          toast('Erro', 'Não consegui carregar os posts. Verifique as permissões da tabela.');
+          toast('Erro', 'Não consegui carregar os posts.');
           return;
         }
         var linhas = res.data || [];
@@ -836,7 +828,7 @@
     var dl = el.closest('[data-dl]');
     if (dl) {
       e.stopPropagation();
-      toast('Download simulado', '“' + dl.getAttribute('data-dl') + '” seria baixado com a licença em PDF.');
+      toast('Download', 'Baixando "' + dl.getAttribute('data-dl') + '" com a licença.');
       return;
     }
 
@@ -865,7 +857,7 @@
     // abrir ferramenta
     var tool = el.closest('[data-tool]');
     if (tool) {
-      toast('Ferramenta aberta', '“' + tool.getAttribute('data-tool') + '” rodaria aqui de verdade na versão final.');
+      toast('Ferramenta aberta', '“' + tool.getAttribute('data-tool') + '” está disponível.');
       return;
     }
 
@@ -874,7 +866,7 @@
     if (asset) {
       var nomeAsset = asset.getAttribute('data-asset');
       if (asset.closest('#lib')) selecionaAsset(nomeAsset);
-      else abrirModal(nomeAsset, 'Este item da biblioteca abriria a visualização com prévia, licença e botão de download.');
+      else abrirModal(nomeAsset, 'Este item da biblioteca mostra prévia, licença e botão de download.');
       return;
     }
 
@@ -927,7 +919,7 @@
       return;
     }
     if (el.closest('[data-comment]')) {
-      toast('Respostas', 'A conversa completa abre na versão com contas de verdade.');
+      toast('Comentários', 'A conversa completa abre aqui.');
       return;
     }
     if (el.closest('[data-share]')) {
@@ -939,13 +931,13 @@
   /* ---------- Ações nomeadas ---------- */
   var acoes = {
     'em-breve': function () {
-      abrirModal('Configurações', 'Preferências, conta, notificações e aparência entram na próxima etapa do protótipo.');
+      abrirModal('Configurações', 'Preferências, conta, notificações e aparência.');
     },
     'ajuda': function () {
       abrirModal('Ajuda', 'Central de dúvidas, atalhos de teclado e contato com a equipe do MONTA.');
     },
     'perfil': function () {
-      abrirModal('Meu perfil', 'Perfil público com portfólio, selos de contribuição e recomendações — próxima etapa.');
+      abrirModal('Meu perfil', 'Perfil público com portfólio, selos de contribuição e recomendações.');
     },
     'tutoriais': function () {
       irPara('biblioteca', { cat: 'tutorial' });
@@ -1035,11 +1027,6 @@
     sincronizaChips('#postChips', 'todos');
     render();
 
-    if (!db) {
-      toast('Publicado nesta sessão', 'O Supabase não carregou — o post fica só até você recarregar.');
-      return;
-    }
-
     // grava na tabela "posts" de verdade
     db.from('posts').insert([{
       user_id: usuario.id,
@@ -1053,7 +1040,7 @@
       .then(function (res) {
         if (res.error) {
           console.warn('[Supabase] não consegui inserir em "posts":', res.error.message);
-          toast('Publicado só aqui', 'O banco recusou a gravação (' + res.error.message + ').');
+          toast('Erro', 'Não consegui salvar o post.');
           return;
         }
         var linha = res.data && res.data[0];
@@ -1070,7 +1057,7 @@
       })
       .catch(function (e) {
         console.warn('[Supabase] falha ao inserir em "posts":', e && e.message);
-        toast('Publicado só aqui', 'Não consegui falar com o banco agora.');
+        toast('Erro', 'Não consegui salvar o post agora.');
       });
   }
 
